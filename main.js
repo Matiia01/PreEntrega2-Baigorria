@@ -32,7 +32,7 @@ function costoTotalCursos(cursosDisponibles) {
         if (cursoEncontrado) {
             costoTotal += cursoEncontrado.costo
         } else {
-            console.log("El curso " + nombreCurso + " no está disponible.")
+            alert("El curso " + nombreCurso + " no está disponible.")
         }
     }
     return costoTotal
