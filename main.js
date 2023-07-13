@@ -32,6 +32,7 @@ function costoTotalCursos(cursosDisponibles) {
         if (cursoEncontrado) {
             costoTotal += cursoEncontrado.costo
         } else {
+            //si no se encuentra el curso, se mostrara el cartel corresponiente a que no esta en disponible.
             alert("El curso " + nombreCurso + " no está disponible.")
         }
     }
