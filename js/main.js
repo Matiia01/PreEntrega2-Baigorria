@@ -10,11 +10,30 @@ const cursosDisponibles = [
 const carrito = []
 let total = 0
 
+
+//FUNCION PARA CARGAR EL NOMBRE DEL COMPRADOR
+function cargarNombre() {
+  let nombreInput = document.createElement("input")
+  nombreInput.placeholder = "Ingresa tu nombre"
+
+  let guardarBoton = document.createElement("button")
+  guardarBoton.textContent = "Guardar Nombre"
+  guardarBoton.onclick = function () {
+    let nombre = nombreInput.value
+    localStorage.setItem(nombre, carritojsn)
+  }
+
+  document.body.appendChild(nombreInput)
+  document.body.appendChild(guardarBoton)
+}
+
+
 //FUNCION PARA AGREGAR CURSOS AL CARRITO
 function agregarCursoAlCarrito(cursoId) {
   const cursoEncontrado = cursosDisponibles.find(curso => curso.id === cursoId)
   if (cursoEncontrado) {
     carrito.push(cursoEncontrado)
+    total += cursoEncontrado.precio
     actualizarCarrito()
   }
 }
@@ -38,7 +57,7 @@ function actualizarCarrito() {
     const li = document.createElement("li")
     li.textContent = `ID: ${curso.id} - Curso: ${curso.nombre} - Precio: $${curso.precio}.`
 
-    const botonQuitar = document.createElement('button')
+    const botonQuitar = document.createElement("button")
     botonQuitar.textContent = 'Quitar del Carrito'
     botonQuitar.addEventListener('click', () => quitarDelCarrito(curso.id))
 
@@ -50,8 +69,11 @@ function actualizarCarrito() {
   totalElement.textContent = total
 }
 
+let carritojsn = JSON.stringify()
+
 //FUNCION PRINCIPAL
 function main() {
+  cargarNombre()
   const cursosDisponiblesElement = document.getElementById("cursosDisponibles")
   cursosDisponibles.forEach(curso => {
     const li = document.createElement("li")
@@ -63,6 +85,7 @@ function main() {
     cursosDisponiblesElement.appendChild(li)
   })
 }
+
 
 //EJECUCION FUNCION PRINCIPAL
 main();
