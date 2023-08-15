@@ -20,7 +20,7 @@ function cargarNombre() {
   guardarBoton.textContent = "Guardar Nombre"
   guardarBoton.onclick = function () {
     let nombre = nombreInput.value
-    localStorage.setItem(nombre, carritojsn)
+    localStorage.setItem(nombre, JSON.stringify(carrito))
   }
 
   document.body.appendChild(nombreInput)
@@ -56,7 +56,7 @@ function actualizarCarrito() {
   carrito.forEach(curso => {
     const li = document.createElement("li")
     li.textContent = `ID: ${curso.id} - Curso: ${curso.nombre} - Precio: $${curso.precio}.`
-
+    
     const botonQuitar = document.createElement("button")
     botonQuitar.textContent = 'Quitar del Carrito'
     botonQuitar.addEventListener('click', () => quitarDelCarrito(curso.id))
@@ -64,12 +64,9 @@ function actualizarCarrito() {
     li.appendChild(botonQuitar)
     carritoElement.appendChild(li)
   })
-
   const totalElement = document.getElementById("total");
   totalElement.textContent = total
 }
-
-let carritojsn = JSON.stringify()
 
 //FUNCION PRINCIPAL
 function main() {
