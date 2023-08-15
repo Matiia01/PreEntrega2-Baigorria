@@ -1,64 +1,68 @@
-// Definición de cursos disponibles
+//CURSOS DISPONIBLES EN ARRAYS DE OBJETOS
 const cursosDisponibles = [
-    { id: 1, nombre: "RCP-DEA", precio: 1500 },
-    { id: 2, nombre: "Primeros Auxilios", precio: 2500 },
-    { id: 3, nombre: "maniobras de Hemblich", precio: 1000 },
-    { id: 4, nombre: "incendios de cocina", precio: 2000 },
-    { id: 5, nombre: "Monoxido de Carbono", precio: 2000 },
+  { id: 1, nombre: "RCP-DEA", precio: 1500 },
+  { id: 2, nombre: "Primeros Auxilios", precio: 2500 },
+  { id: 3, nombre: "Maniobras de Hemblich", precio: 1000 },
+  { id: 4, nombre: "Incendios de Cocina", precio: 2000 },
+  { id: 5, nombre: "Monoxido de Carbono", precio: 2000 },
 ]
 
-// Función para mostrar la lista de cursos disponibles
-function mostrarCursos() {
-    console.log('Cursos disponibles:')
-    cursosDisponibles.forEach((curso) => {
-        console.log(`${curso.id}. ${curso.nombre} - Precio: $${curso.precio}`)
-    })
+const carrito = []
+let total = 0
+
+//FUNCION PARA AGREGAR CURSOS AL CARRITO
+function agregarCursoAlCarrito(cursoId) {
+  const cursoEncontrado = cursosDisponibles.find(curso => curso.id === cursoId)
+  if (cursoEncontrado) {
+    carrito.push(cursoEncontrado)
+    actualizarCarrito()
+  }
 }
 
-// Función para buscar un curso por su ID
-function buscarCursoPorId(id) {
-    return cursosDisponibles.find((curso) => curso.id === id)
+//FUNCION PARA QUITAR UN CURSO DEL CARRITO
+function quitarDelCarrito(id) {
+  const index = carrito.findIndex(curso => curso.id === id)
+
+  if (index !== -1) {
+    total -= carrito[index].precio
+    carrito.splice(index, 1)
+    actualizarCarrito()
+  }
 }
 
-// Función para filtrar los cursos por un rango de precios
-function filtrarCursosPorPrecio(minPrecio, maxPrecio) {
-    return cursosDisponibles.filter((curso) => curso.precio >= minPrecio && curso.precio <= maxPrecio)
+//FUNCION QUE ACUALIZA EL CARRITO
+function actualizarCarrito() {
+  const carritoElement = document.getElementById("carrito")
+  carritoElement.innerHTML = ""
+  carrito.forEach(curso => {
+    const li = document.createElement("li")
+    li.textContent = `ID: ${curso.id} - Curso: ${curso.nombre} - Precio: $${curso.precio}.`
+
+    const botonQuitar = document.createElement('button')
+    botonQuitar.textContent = 'Quitar del Carrito'
+    botonQuitar.addEventListener('click', () => quitarDelCarrito(curso.id))
+
+    li.appendChild(botonQuitar)
+    carritoElement.appendChild(li)
+  })
+
+  const totalElement = document.getElementById("total");
+  totalElement.textContent = total
 }
 
-// Función para simular la compra de un curso
-function comprarCurso(curso) {
-    console.log(`¡Felicidades! Has comprado el curso "${curso.nombre}" por $${curso.precio}.`)
-}
-
-// Función principal
+//FUNCION PRINCIPAL
 function main() {
-    console.log('¡Bienvenido/a a nuestra plataforma de cursos!')
-
-    // Muestra la lista de cursos disponibles
-    mostrarCursos();
-    // Solicita al usuario que ingrese el ID del curso que desea comprar
-    const cursoId = parseInt(prompt('Ingresa el ID del curso que deseas comprar:'))
-
-    // Busca el curso por su ID
-    const cursoSeleccionado = buscarCursoPorId(cursoId)
-
-    if (cursoSeleccionado) {
-        // Muestra la información del curso seleccionado
-        console.log(`Has seleccionado el curso "${cursoSeleccionado.nombre}" - Precio: $${cursoSeleccionado.precio}`)
-
-        // Pregunta al usuario si desea continuar con la compra
-        const confirmacion = prompt('¿Deseas comprar este curso? (Responde "S" para sí, "N" para no)').toUpperCase()
-
-        if (confirmacion === 'S') {
-            // Compra el curso
-            comprarCurso(cursoSeleccionado)
-        } else {
-            console.log('Gracias por tu visita. ¡Vuelve pronto!')
-        }
-    } else {
-        console.log('El curso seleccionado no está disponible.')
-    }
+  const cursosDisponiblesElement = document.getElementById("cursosDisponibles")
+  cursosDisponibles.forEach(curso => {
+    const li = document.createElement("li")
+    li.textContent = `ID: ${curso.id} - Curso: ${curso.nombre} - Precio: $${curso.precio}.`
+    const botonAgregar = document.createElement("button")
+    botonAgregar.textContent = "Agregar al carrito"
+    botonAgregar.addEventListener("click", () => agregarCursoAlCarrito(curso.id))
+    li.appendChild(botonAgregar)
+    cursosDisponiblesElement.appendChild(li)
+  })
 }
 
-// Ejecuta el programa
-main()
+//EJECUCION FUNCION PRINCIPAL
+main();
