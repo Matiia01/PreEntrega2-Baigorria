@@ -17,7 +17,7 @@ function cargarNombre() {
   nombreInput.placeholder = "Ingresa tu nombre"
 
   let guardarBoton = document.createElement("button")
-  guardarBoton.textContent = "Guardar Nombre"
+  guardarBoton.textContent = "Guardar Carrito"
   guardarBoton.onclick = function () {
     let nombre = nombreInput.value
     localStorage.setItem(nombre, JSON.stringify(carrito))
